@@ -1,0 +1,37 @@
+* {
+    box-sizing: border-box;
+}
+.App-container {
+    background-color:#66ccff;
+
+}
+.App {
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    width:800px;
+    height:100vh;
+    margin:0 auto;
+    padding:50px;
+}
+
+.App-content {
+    width:100%;
+    margin:0 auto;
+    padding-left:100px
+}
+
+button {
+    background-color: #0066ff;
+    color:#fff;
+    padding:0 25px;
+    border:none;
+    height: 50px;
+}
+
+input {
+    border:none;
+    padding: 0 10px;
+    width:300px;
+    height:50px
+}

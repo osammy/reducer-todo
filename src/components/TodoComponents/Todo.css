@@ -1,0 +1,50 @@
+
+.todo-form {
+    width:800px;
+    padding:30px 0;
+}
+
+.todo-form-content {
+    display:flex;
+    justify-content: space-between;
+    width:500px;
+
+}
+
+
+.todo {
+    /* margin-bottom:20px; */
+    display:flex;
+    justify-content: space-between;
+    width:500px;
+    background:#fff;
+    padding:20px 10px;
+    margin:5px 0;
+    background-color:blue;
+    color:#fff;
+    text-transform: capitalize;
+    /* margin:0 auto; */
+}
+
+.todo button {
+    /* margin-bottom:20px; */
+
+    background:none;
+    width:initial;
+    height: initial;
+    padding:0px;
+    /* margin:0 auto; */
+}
+
+.todo-list-input-div {
+    margin-bottom:20px;
+}
+
+.todo-list-input {
+    height:30px;
+}
+
+.todo-list-input-div button {
+    height:30px;
+    background-color:#ccc;
+}
