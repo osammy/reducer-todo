@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useState,useEffect,useReducer} from "react";
 import TodoList from "./components/TodoComponents/TodoList";
 import TodoForm from "./components/TodoComponents/TodoForm";
 import { localData } from "./data/localStore";
+import {todoReducer} from './reducers/reducers';
+import * as todoActions from './actions/todo_actions';
 import './App.css';
 const {
   getLocalStorageData,
@@ -9,92 +11,84 @@ const {
   clearLocalStorage
 } = localData;
 
-class App extends React.Component {
-  // you will need a place to store your state in this component.
-  // design `App` to be the parent component of your application.
-  // this component is going to take care of state, and any change handlers you need to work with your state
-  constructor(props) {
-    super(props);
+function App()  {
 
-    this.state = {
-      todos: [],
-      searchText:"",
-    };
-  }
+  const [todos,dispatch] = useReducer(todoReducer,[]);
+  const [searchText, setSearchText] = useState("");
 
-  componentDidMount() {
-    const todos = getLocalStorageData();
-    console.log(todos);
-    if (todos !== null) this.setState({ todos });
-  }
+  // useEffect(()=> {
+  //   const todos = getLocalStorageData();
+  //   console.log(todos);
+  //   if (todos !== null) dispatch({action:todoActions.ADD_TODOS_FROM_LOCAL_STORE,payload:todos});
+  // },[])
 
-  addTodo = todo => {
-    todo = { ...todo, ...{ id: Date.now() } };
+  const addTodo = todo => {
+    todo = { ...todo, ...{ id: Date.now(), completedDate:null } };
 
-    const newTodos = [...this.state.todos, todo];
+    const newTodos = [...todos, todo];
 
-    this.setState({
-      todos: newTodos
-    });
+    // setTodos(newTodos);
+    dispatch({type:todoActions.ADD_TODO,payload:todo})
 
     setLocalStorageData(newTodos);
   };
 
-  toggleTodo = (todo, todos) => {
+  const toggleTodo = (todo) => {
+    
     const copyOfTodo = { ...todo };
+    const copyOfTodos = [...todos];
     const { completed, id } = copyOfTodo;
 
-    if (completed) copyOfTodo.completed = false;
-    else copyOfTodo.completed = true;
+    if (completed) {
+      copyOfTodo.completed = false;
+      copyOfTodo.completedDate = null;
+    }
+    else {
+      copyOfTodo.completed = true;
+      copyOfTodo.completedDate = new Date();
+    }
 
-    const neWfilteredArr = todos.filter(el => el.id !== id);
-
-    this.setState({
-      todos: neWfilteredArr.concat(copyOfTodo)
-    });
+    const index = copyOfTodos.findIndex(el => el.id === id);
+    copyOfTodos[index] = copyOfTodo;
+    // setTodos(neWfilteredArr.concat(copyOfTodo));
+    dispatch({type:todoActions.TOGGLE_TODO_COMPLETED,payload:copyOfTodos})
   };
 
-  clearTodo = e => {
+  const clearTodos = e => {
     e.preventDefault();
-    this.setState({
-      todos: []
-    });
-
+    // setTodos([]);
+    dispatch({type:todoActions.CLEAR_TODOS})
     clearLocalStorage();
   };
 
-  handleSearchChange = evt => {
-    const { name, value } = evt.target;
+  const handleSearchChange = evt => setSearchText(evt.target.value);
+  
 
-    this.setState({
-      [name]: value
-    });
-  };
-
-  searchTasks = ()=> {
+  const searchTasks = ()=> {
     const {searchText,todos} = this.state;
     const todo = todos.find(el => el.task.toLowerCase() === searchText.toLowerCase());
-    this.setState({
-      todos:[todo]
-    })
+    this.setTodos([todo]);
   }
-clearTodo = () => {
   
+const removeTodo = (id) => {
+  const newTodos = todos.filter(el => el.id !== id);
+
+  dispatch({type:todoActions.REMOVE_TODO,payload:newTodos})
 }
-  render() {
-    const { todos,searchText } = this.state;
+
     return (
       <div className="App-container">
       <div className="App">
         <div className="App-content">
         <h2>Welcome to your Todo App!</h2>
-        <TodoForm addTodo={this.addTodo} clearTodo={this.clearTodo} />
+        <TodoForm addTodo={addTodo} clearTodos={clearTodos} />
         <TodoList
           todos={todos}
-          toggleTodo={this.toggleTodo}
+          toggleTodo={toggleTodo}
           searchText={searchText}
-          searchTasks={this.searchTasks}
-          handleSearchChange={this.handleSearchChange}
+          searchTasks={searchTasks}
+          handleSearchChange={handleSearchChange}
+          removeTodo={removeTodo}
         />
         </div>
         
@@ -102,6 +96,5 @@ clearTodo = () => {
       </div>
     );
   }
-}
 
 export default App;

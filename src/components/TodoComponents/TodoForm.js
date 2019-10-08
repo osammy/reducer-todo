@@ -1,66 +1,57 @@
-// your components will all go in this `component` directory.
-// feel free to change this component.js into TodoList.js
-import React, { Component } from "react";
+import React, {useState} from 'react';
 
-class TodoList extends Component {
-  constructor(props) {
-    super(props);
+function TodoForm(props) {
 
-    this.state = {
-      formData: {
-        id: "",
-        task: "",
-        completed: false
-      }
-    };
+  // this.state = {
+  //   formData: {
+  //     id: "",
+  //     task: "",
+  //     completed: false
+  //   }
+  // };
 
-    this.initFormData = this.state.formData;
+  const initFormData = {
+    id: "",
+    task: "",
+    completed: false
   }
 
-  handleChange = evt => {
+  const [formData, setFormData] = useState(initFormData);
+
+  const handleChange = evt => {
     const { name, value } = evt.target;
-    const { formData } = this.state;
 
-    this.setState({
-      formData: { ...formData, ...{ [name]: value } }
-    });
+    setFormData({ ...formData, ...{ [name]: value }});
   };
 
-  handleClick = formData => {
-    this.props.addTodo(formData);
-    this.setState({
-      formData: this.initFormData
-    });
+  const handleClick = formData => {
+    props.addTodo(formData);
+    setFormData(initFormData);
   };
 
-  render() {
-    const {
-      formData,
-      formData: { task }
-    } = this.state;
-    return (
-      <form
-      className="todo-form"
-        onSubmit={e => {
-          e.preventDefault();
-          e.stopPropagation();
-          this.handleClick(formData);
-        }}
-      >
-        <div className="todo-form-content">
-          <div>
-            <input name="task" onChange={this.handleChange} value={task} />
-          </div>
-          <div>
-            <button type="submit">Add</button>
-          </div>
-          <div>
-            <button onClick={this.props.clearTodo}>clear all</button>
-          </div>
+  const {task} = formData;
+
+  return (
+    <form
+    className="todo-form"
+      onSubmit={e => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleClick(formData);
+      }}
+    >
+      <div className="todo-form-content">
+        <div>
+          <input name="task" onChange={handleChange} value={task} />
         </div>
-      </form>
-    );
-  }
-}
+        <div>
+          <button type="submit">Add</button>
+        </div>
+        <div>
+          <button onClick={props.clearTodos}>clear all</button>
+        </div>
+      </div>
+    </form>
+  );}
 
-export default TodoList;
+  export default TodoForm;

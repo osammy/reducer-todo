@@ -7,7 +7,7 @@
 .todo-form-content {
     display:flex;
     justify-content: space-between;
-    width:500px;
+    width:600px;
 
 }
 
@@ -16,15 +16,44 @@
     /* margin-bottom:20px; */
     display:flex;
     justify-content: space-between;
-    width:500px;
+    /* width:600px; */
+    width:100%;
     background:#fff;
-    padding:20px 10px;
+    /* height:30px; */
+    /* padding:20px 10px; */
     margin:5px 0;
-    background-color:blue;
+    background-color:#007acc;
     color:#fff;
     text-transform: capitalize;
     /* margin:0 auto; */
 }
+
+.toggle-class {
+    border-bottom:1px solid #fff;
+    cursor:pointer;
+}
+
+.toggle-class:hover {
+    color:black;
+    background: silver;
+    transition:1s;
+    
+    
+}
+
+.todo div {
+    /* margin-bottom:20px; */
+        padding:15px 10px;
+        text-transform: uppercase;
+
+}
+.removeTodo {
+    background:orangered;
+    color:#fff;
+    padding:15px;
+    cursor:pointer;
+}
+
 
 .todo button {
     /* margin-bottom:20px; */
@@ -35,6 +64,8 @@
     padding:0px;
     /* margin:0 auto; */
 }
+
+
 
 .todo-list-input-div {
     margin-bottom:20px;

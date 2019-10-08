@@ -8,7 +8,7 @@
 .App {
     display:flex;
     justify-content: center;
-    align-items:center;
+    /* align-items:center; */
     width:800px;
     height:100vh;
     margin:0 auto;
@@ -18,7 +18,14 @@
 .App-content {
     width:100%;
     margin:0 auto;
-    padding-left:100px
+    /* padding-left:100px; */
+    /* border:1px solid red; */
+}
+
+.App-content h2 {
+    /* text-align:center; */
+    color:white;
+    font-size:1.7rem;
 }
 
 button {

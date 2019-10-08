@@ -1,21 +1,32 @@
 import React from "react";
 import "./Todo.css";
+import {formatDateAndTime} from '../../data/formatDate'
+
+const removeBtnStyle = {
+  background:'orangered',
+  color:'#fff',
+  padding:'15px',
+}
+
 const Todo = props => {
-  let { task, completed } = props.todo;
-  const { toggleTodo,clearTodo } = props;
+  let { task, completed,completedDate } = props.todo;
+  const { toggleTodo,removeTodo } = props;
   completed =
     completed !== undefined && completed === false
-      ? "not completed"
-      : "completed";
+      ? "NOT COMPLETE"
+      : "COMPLETE";
   return (
-    <div class="todo">
+    <div className="todo">
       <div>{task}</div>
-      <div>
-        <button onClick={toggleTodo}>{completed}</button>
+      <div onClick={toggleTodo} className="toggle-class">
+        <button >{completed}</button>
       </div>
-      {/* <div>
-        <button onClick={clearTodo}>X</button>
-      </div> */}
+      <div>
+        <span >{formatDateAndTime(completedDate)}</span>
+      </div>
+      <div onClick={removeTodo} className="removeTodo">
+        <button >X</button>
+      </div>
     </div>
   );
 };
